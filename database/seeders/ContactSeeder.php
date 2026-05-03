@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Client;
+use App\Models\Contact;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ClientSeeder extends Seeder
+class ContactSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Client::factory(1000)->create();
+        Contact::factory(100)->create();
     }
 }

@@ -7,9 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    use HasFactory;
-    protected $fillable = ['name','email','phone','company','notes','active','user_id'];
-    public function user(){
-        return $this->belongsTo(User::class);
-     }
+   use HasFactory;
+   protected $fillable = ['name', 'email', 'phone', 'company', 'notes', 'active', 'user_id'];
+   public function user()
+   {
+      return $this->belongsTo(User::class);
+   }
+   public function contacts()
+   {
+      return $this->hasMany(Contact::class);
+   }
+   public function followUps()
+   {
+      return $this->hasMany(FollowUp::class);
+   }
+   public function tasks()
+   {
+      $this->hasMany(Task::class);
+   }
 }

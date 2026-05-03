@@ -12,13 +12,13 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients=Client::where('active', 1)->get();
-        return view('clients.index',compact('clients'));
+        $clients = Client::where('active', 1)->paginate(10);
+        return view('clients.index', compact('clients'));
     }
     public function deleted()
     {
-        $clients=Client::where('active', 0)->get();
-        return view('clients.deleted',compact('clients'));
+        $clients = Client::where('active', 0)->get();
+        return view('clients.deleted', compact('clients'));
     }
 
     /**
@@ -33,71 +33,70 @@ class ClientController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $datos = $request->validate([
-        'name'    => 'required|min:5|max:255',
-        'email'   => 'nullable|email|unique:clients,email',
-        'phone'   => 'nullable|string|max:20',
-        'company' => 'nullable|string|max:255',
-        'notes'   => 'nullable|string|max:500',
-    ], [
-        'name.required' => 'El nombre es requerido',
-        'name.min'      => 'El nombre debe tener al menos 5 caracteres',
-        'name.max'      => 'El nombre debe tener menos de 255 caracteres',
-        'email.email'   => 'El formato de correo no es válido',
-        'email.unique'  => 'El correo ya existe',
-    ]);
+    {
+        $datos = $request->validate([
+            'name'    => 'required|min:5|max:255',
+            'email'   => 'required|email|unique:clients,email',
+            'phone'   => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:255',
+            'notes'   => 'nullable|string|max:500',
+        ]);
 
-    // Auditoría: este campo no se valida porque no viene del request
-    $datos['user_id'] = auth()->id();
+        // Auditoría: este campo no se valida porque no viene del request
+        $datos['user_id'] = auth()->id();
 
-    Client::create($datos);
+        Client::create($datos);
 
-    return redirect()->route('clients.index')->with('success','Cliente registrado');
-}
+        return redirect()->route('clients.index')->with('success', 'Cliente registrado');
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(Client $client)
     {
-        //
+        $client->load('contacts'); // carga todos los contactos de ese cliente
+        return view('clients.show', compact('client'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Client $client)
+    public function edit($id)
     {
-        return view('clients.edit',compact('client'));
+        $client = Client::find($id);
+        if (!$client) {
+            return view('clients.notFound');
+        }
+        return view('clients.edit', compact('client'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, Client $client)
-{
-    $datos = $request->validate([
-        'name'    => 'required|min:5|max:255',
-        'email'   => 'nullable|email|unique:clients,email,' . $client->id,
-        'phone'   => 'nullable|string|max:20',
-        'company' => 'nullable|string|max:255',
-        'notes'   => 'nullable|string|max:500',
-    ], [
-        'name.required' => 'El nombre es requerido',
-        'name.min'      => 'El nombre debe tener al menos 5 caracteres',
-        'name.max'      => 'El nombre debe tener menos de 255 caracteres',
-        'email.email'   => 'El formato de correo no es válido',
-        'email.unique'  => 'El correo ya existe',
-    ]);
+    public function update(Request $request, Client $client)
+    {
+        $datos = $request->validate([
+            'name'    => 'required|min:5|max:255',
+            'email'   => 'nullable|email|unique:clients,email,' . $client->id,
+            'phone'   => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:255',
+            'notes'   => 'nullable|string|max:500',
+        ], [
+            'name.required' => 'El nombre es requerido',
+            'name.min'      => 'El nombre debe tener al menos 5 caracteres',
+            'name.max'      => 'El nombre debe tener menos de 255 caracteres',
+            'email.email'   => 'El formato de correo no es válido',
+            'email.unique'  => 'El correo ya existe',
+        ]);
 
-    // Auditoría: registrar quién actualizó
-    $datos['user_id'] = auth()->id();
+        // Auditoría: registrar quién actualizó
+        $datos['user_id'] = auth()->id();
 
-    $client->update($datos);
+        $client->update($datos);
 
-    return redirect()->route('clients.index')->with('success', 'Cliente actualizado');
-}
+        return redirect()->route('clients.index')->with('success', 'Cliente actualizado');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -105,11 +104,11 @@ public function update(Request $request, Client $client)
     public function destroy(Client $client)
     {
         $client->update(['active' => 0]);
-        return redirect()->route('clients.index')->with('success','Cliente eliminado');
+        return redirect()->route('clients.index')->with('success', 'Cliente eliminado');
     }
     public function activate(Client $client)
     {
         $client->update(['active' => 1]);
-        return redirect()->route('clients.index')->with('success','Cliente reingresado');
+        return redirect()->route('clients.index')->with('success', 'Cliente reingresado');
     }
 }

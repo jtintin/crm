@@ -8,19 +8,20 @@
                     Dashboard
                 </a>
 
-                 @permission('clientes')
+                 {{-- @permission('clientes') --}}
                 <a class="nav-link" href="{{ route('clients.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-users-line"></i></div>
                     Clientes
                 </a>
-                @endpermission
-{{--
-                @permission('tareas')
+                {{-- @endpermission --}}
+
+                {{-- @permission('tareas') --}}
                 <a class="nav-link" href="{{ route('tasks.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                     Tareas
                 </a>
-                @endpermission
+                {{-- @endpermission --}}
+
 
                 @permission('calendario')
                 <a class="nav-link" href="{{ route('calendar') }}">
@@ -30,7 +31,7 @@
                 @endpermission
 
                 <div class="sb-sidenav-menu-heading">Administración</div>
-
+{{--
                 @permission('configuracion')
                 <a class="nav-link" href="{{ route('settings.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>

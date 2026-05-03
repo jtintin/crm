@@ -12,6 +12,9 @@
     <link href="{{ asset('css/all.min.css') }}" rel="stylesheet" />
     @stack('style')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--select2-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -19,19 +22,21 @@
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="{{ route('dashboard') }}">CRM</a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
 
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="notificacionesDropdown" role="button" data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-bell"></i> 
+                <a class="nav-link dropdown-toggle" href="#" id="notificacionesDropdown" role="button"
+                    data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-bell"></i>
                     <span id="count" class="badge bg-danger">
                         {{-- {{ auth()->user()->unreadNotifications->count() }} --}}
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacionesDropdown">
-                    {{-- @foreach(auth()->user()->unreadNotifications as $notification)
+                    {{-- @foreach (auth()->user()->unreadNotifications as $notification)
                     <li>
                         <a class="dropdown-item" href="#" onclick="markAsRead('{{ $notification->id }}')">
                             <strong>{{ $notification->data['title'] }}</strong><br>
@@ -43,8 +48,9 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user fa-fw"></i> 
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
                     {{ auth()->user()->name }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -52,7 +58,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="{{route('logout')}}">Cerrar sesión</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</a></li>
                 </ul>
             </li>
         </ul>
@@ -83,6 +89,9 @@
     </div>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    <!--select2 css-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- <script>
         function markAsRead(id) {
@@ -102,6 +111,7 @@
                 });
         }
     </script> --}}
+
     @stack('script')
 </body>
 

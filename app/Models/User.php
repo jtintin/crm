@@ -49,4 +49,12 @@ class User extends Authenticatable
     public function clients(){
         return $this->hasMany(Client::class,'user_id');
     }
+    public function followUps()
+    {
+        return $this->hasMany(FollowUp::class);
+    }
+    public function tasks()
+    {
+        $this->hasMany(Task::class);
+    }
 }
