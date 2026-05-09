@@ -12,11 +12,11 @@ class Task extends Model
     //una tarea pertenece a un usuario o un cliente
     public function user()
     {
-        $this->belongsTo(User::class);
+        return    $this->belongsTo(User::class);
     }
     public function client()
-    {
-        $this->belongsTo(Client::class);
+    {   
+        return $this->belongsTo(Client::class);
     }
 }
 //una tarea pertenece a un usuario

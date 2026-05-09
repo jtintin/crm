@@ -63,8 +63,10 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        $task->load('client');
+        return response()->json($task);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -89,7 +91,15 @@ class TaskController extends Controller
         ]);
 
         $task->update($request->all());
-             Swal::success([
+        //si la petición viene por AJAX
+        if($request->expectsJson){
+            return response()->json([
+                'message'=>'Tarea actualizada correctamente',
+                'task' =>$task
+            ]);
+        }
+        //si la petición viene por el formulario tradicional
+        Swal::success([
             'title' => 'Tarea actualizada',
             'text' => 'La tarea se actualizó correctamente',
             'icon' => 'success',
@@ -104,7 +114,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        
+
         $task->delete();
         Swal::success([
             'title' => 'Tarea eliminada',
@@ -116,5 +126,10 @@ class TaskController extends Controller
     public function calendar()
     {
         return view('tasks.calendar');
+    }
+    public function events()
+    {
+        $tasks = Task::select(['id', 'title', 'due_date as start'])->get();
+        return response()->json($tasks);
     }
 }

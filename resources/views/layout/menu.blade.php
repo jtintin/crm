@@ -31,14 +31,14 @@
                 @endpermission
 
                 <div class="sb-sidenav-menu-heading">Administración</div>
-{{--
+
                 @permission('configuracion')
                 <a class="nav-link" href="{{ route('settings.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
                     Configuración
                 </a>
                 @endpermission
-
+{{--
                 @permission('usuarios')
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
